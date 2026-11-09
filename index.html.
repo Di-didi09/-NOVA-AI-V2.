@@ -1,0 +1,524 @@
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#080d1b">
+  <meta name="description" content="NOVA AI, votre espace d'intelligence artificielle.">
+  <title>NOVA AI — Imaginez sans limites</title>
+
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+
+    :root {
+      --bg: #080d1b;
+      --panel: #101a2d;
+      --panel2: #14213a;
+      --blue: #397bff;
+      --cyan: #39d9ff;
+      --text: #f4f7ff;
+      --muted: #8998b5;
+      --border: rgba(135,169,225,.14);
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      background:
+        radial-gradient(ellipse at 70% 0%, rgba(35,104,255,.14), transparent 40%),
+        var(--bg);
+      color: var(--text);
+      font-family: Inter, sans-serif;
+      min-height: 100vh;
+    }
+
+    button, input { font: inherit; }
+    button { cursor: pointer; }
+
+    .app { display: flex; min-height: 100vh; }
+
+    .sidebar {
+      width: 250px;
+      background: rgba(10,17,32,.94);
+      border-right: 1px solid var(--border);
+      padding: 25px 17px;
+      display: flex;
+      flex-direction: column;
+      flex-shrink: 0;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 11px;
+      font-size: 21px;
+      font-weight: 800;
+      letter-spacing: 1.5px;
+      margin: 3px 7px 38px;
+    }
+
+    .logo-icon {
+      width: 36px;
+      height: 36px;
+      display: grid;
+      place-items: center;
+      border-radius: 12px;
+      color: white;
+      background: linear-gradient(135deg,var(--blue),var(--cyan));
+      box-shadow: 0 0 24px rgba(57,123,255,.4);
+    }
+
+    .section-label {
+      color: var(--muted);
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 1.6px;
+      margin: 0 10px 13px;
+    }
+
+    .nav {
+      display: grid;
+      gap: 7px;
+    }
+
+    .nav button {
+      text-align: left;
+      color: #a9b8d2;
+      background: transparent;
+      border: 1px solid transparent;
+      padding: 12px;
+      border-radius: 11px;
+      font-size: 13px;
+      transition: .2s;
+    }
+
+    .nav button:hover, .nav button.active {
+      color: white;
+      background: rgba(55,117,255,.13);
+      border-color: rgba(55,117,255,.2);
+    }
+
+    .sidebar-bottom {
+      margin-top: auto;
+      padding-top: 25px;
+    }
+
+    .upgrade {
+      border: 1px solid rgba(57,123,255,.3);
+      background: linear-gradient(145deg,rgba(45,101,220,.2),rgba(35,210,255,.06));
+      padding: 16px;
+      border-radius: 15px;
+    }
+
+    .upgrade strong { font-size: 13px; }
+    .upgrade p { color: var(--muted); font-size: 11px; line-height: 1.6; }
+
+    .upgrade button, .primary {
+      border: 0;
+      background: linear-gradient(100deg,var(--blue),#257fe8);
+      color: white;
+      font-weight: 700;
+      border-radius: 10px;
+      padding: 11px 15px;
+    }
+
+    .upgrade button { width: 100%; font-size: 12px; }
+
+    main { flex: 1; min-width: 0; }
+
+    header {
+      height: 76px;
+      padding: 0 5%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .status {
+      color: #6de5b0;
+      font-size: 11px;
+      background: rgba(45,190,130,.1);
+      border: 1px solid rgba(45,190,130,.2);
+      border-radius: 30px;
+      padding: 8px 12px;
+    }
+
+    .account {
+      color: #cbd7eb;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      background: var(--panel);
+      padding: 10px 14px;
+      font-size: 12px;
+    }
+
+    .content {
+      max-width: 1050px;
+      margin: auto;
+      padding: 65px 6% 80px;
+    }
+
+    .hero { text-align: center; }
+
+    .eyebrow {
+      display: inline-block;
+      color: var(--cyan);
+      font-size: 11px;
+      letter-spacing: 2px;
+      font-weight: 700;
+      padding: 9px 14px;
+      border: 1px solid rgba(57,217,255,.2);
+      background: rgba(57,217,255,.06);
+      border-radius: 30px;
+    }
+
+    h1 {
+      font-size: clamp(37px,6vw,66px);
+      line-height: 1.08;
+      letter-spacing: -3px;
+      margin: 25px 0 16px;
+    }
+
+    .gradient {
+      background: linear-gradient(90deg,#6c9dff,#41e1ff);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    .subtitle {
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.8;
+      max-width: 520px;
+      margin: 0 auto;
+    }
+
+    .chat {
+      margin: 48px auto 0;
+      max-width: 760px;
+      border: 1px solid rgba(104,151,235,.23);
+      background: rgba(16,26,45,.85);
+      border-radius: 19px;
+      padding: 17px;
+      box-shadow: 0 20px 80px rgba(0,0,0,.23),0 0 40px rgba(45,110,255,.07);
+    }
+
+    .messages {
+      min-height: 100px;
+      max-height: 300px;
+      overflow-y: auto;
+      padding: 10px 5px;
+    }
+
+    .message {
+      padding: 13px 15px;
+      border-radius: 13px;
+      margin-bottom: 10px;
+      font-size: 13px;
+      line-height: 1.7;
+      white-space: pre-wrap;
+    }
+
+    .message.ai {
+      background: rgba(55,117,255,.1);
+      border: 1px solid rgba(55,117,255,.12);
+    }
+
+    .message.user {
+      background: rgba(255,255,255,.06);
+      margin-left: 12%;
+    }
+
+    .input-row {
+      display: flex;
+      gap: 10px;
+      padding-top: 13px;
+      border-top: 1px solid var(--border);
+    }
+
+    .input-row input {
+      flex: 1;
+      min-width: 0;
+      color: white;
+      background: transparent;
+      border: 0;
+      outline: 0;
+      padding: 12px 8px;
+      font-size: 13px;
+    }
+
+    .input-row input::placeholder { color: #7888a5; }
+
+    .send {
+      border: 0;
+      border-radius: 11px;
+      background: linear-gradient(135deg,var(--blue),var(--cyan));
+      color: white;
+      font-weight: 800;
+      padding: 0 19px;
+    }
+
+    .hint {
+      color: #72819d;
+      font-size: 10px;
+      margin: 12px 0 0;
+      text-align: center;
+    }
+
+    .features {
+      display: grid;
+      grid-template-columns: repeat(3,1fr);
+      gap: 15px;
+      margin-top: 55px;
+    }
+
+    .feature {
+      background: rgba(16,26,45,.7);
+      border: 1px solid var(--border);
+      padding: 21px;
+      border-radius: 15px;
+    }
+
+    .feature-icon {
+      font-size: 23px;
+      margin-bottom: 14px;
+    }
+
+    .feature h3 { font-size: 14px; margin: 0 0 9px; }
+    .feature p { color: var(--muted); font-size: 11px; line-height: 1.7; margin: 0; }
+
+    .pricing {
+      display: none;
+      margin-top: 20px;
+    }
+
+    .pricing h2 { text-align: center; font-size: 30px; }
+    .pricing-intro { color: var(--muted); text-align: center; font-size: 13px; }
+
+    .plans {
+      display: grid;
+      grid-template-columns: repeat(2,1fr);
+      gap: 15px;
+      margin-top: 28px;
+    }
+
+    .plan {
+      border: 1px solid var(--border);
+      background: var(--panel);
+      border-radius: 16px;
+      padding: 23px;
+    }
+
+    .plan.highlight {
+      border-color: rgba(57,123,255,.7);
+      box-shadow: 0 0 30px rgba(57,123,255,.1);
+    }
+
+    .plan h3 { margin: 0; font-size: 17px; }
+    .price { font-size: 30px; font-weight: 800; margin: 15px 0; }
+    .price small { font-size: 11px; color: var(--muted); font-weight: 400; }
+    .plan p { color: var(--muted); font-size: 12px; line-height: 1.9; }
+    .plan button { width: 100%; margin-top: 12px; }
+
+    footer {
+      border-top: 1px solid var(--border);
+      text-align: center;
+      color: #7585a1;
+      padding: 25px;
+      font-size: 10px;
+    }
+
+    @media(max-width:700px) {
+      .sidebar { width: 68px; padding: 20px 8px; }
+      .logo { margin: 0 7px 35px; }
+      .logo span:last-child, .section-label, .nav .nav-text,
+      .sidebar-bottom { display: none; }
+      .nav button { text-align: center; font-size: 17px; padding: 12px 3px; }
+      header { padding: 0 17px; height: 65px; }
+      .content { padding: 55px 17px; }
+      .features { grid-template-columns: 1fr; margin-top: 38px; }
+      .plans { grid-template-columns: 1fr; }
+      h1 { letter-spacing: -2px; }
+      .chat { margin-top: 35px; padding: 12px; }
+    }
+  </style>
+</head>
+
+<body>
+<div class="app">
+
+  <aside class="sidebar">
+    <div class="logo">
+      <span class="logo-icon">✦</span>
+      <span>NOVA AI</span>
+    </div>
+
+    <p class="section-label">ESPACE DE TRAVAIL</p>
+
+    <nav class="nav">
+      <button class="active" onclick="showPage('home',this)">⌂ <span class="nav-text">Accueil</span></button>
+      <button onclick="showPage('home',this)">✧ <span class="nav-text">Nouveau chat</span></button>
+      <button onclick="showPage('images',this)">▧ <span class="nav-text">Images</span></button>
+      <button onclick="showPage('history',this)">◷ <span class="nav-text">Historique</span></button>
+      <button onclick="showPage('pricing',this)">◇ <span class="nav-text">Abonnements</span></button>
+    </nav>
+
+    <div class="sidebar-bottom">
+      <div class="upgrade">
+        <strong>Débloquez NOVA</strong>
+        <p>Découvrez les offres et les fonctionnalités premium.</p>
+        <button onclick="showPage('pricing')">Voir les offres</button>
+      </div>
+    </div>
+  </aside>
+
+  <main>
+    <header>
+      <span class="status">● Interface de démonstration</span>
+      <button class="account" onclick="alert('Les comptes seront ajoutés dans une prochaine étape.')">Connexion ↗</button>
+    </header>
+
+    <div class="content">
+
+      <section id="home">
+        <div class="hero">
+          <span class="eyebrow">✦ L'INTELLIGENCE ARTIFICIELLE, AUTREMENT</span>
+          <h1>Imaginez.<br><span class="gradient">NOVA réalise.</span></h1>
+          <p class="subtitle">
+            Bienvenue dans votre nouvel espace d'intelligence artificielle.
+            Donnez vie à vos idées et explorez de nouvelles possibilités.
+          </p>
+        </div>
+
+        <div class="chat">
+          <div class="messages" id="messages">
+            <div class="message ai">
+              ✦ Bonjour ! Je suis NOVA AI.
+
+              L'interface est prête. Mon moteur d'intelligence artificielle sera connecté dans la prochaine étape.
+            </div>
+          </div>
+
+          <form class="input-row" id="chatForm">
+            <input id="userInput" type="text" placeholder="Écrivez votre message à NOVA..." autocomplete="off">
+            <button class="send" type="submit">➤</button>
+          </form>
+          <p class="hint">Version de démonstration — aucune réponse IA réelle pour le moment.</p>
+        </div>
+
+        <div class="features">
+          <div class="feature">
+            <div class="feature-icon">✧</div>
+            <h3>Assistant intelligent</h3>
+            <p>Discutez, posez vos questions et développez vos idées.</p>
+          </div>
+          <div class="feature">
+            <div class="feature-icon">▧</div>
+            <h3>Création d'images</h3>
+            <p>Transformez vos descriptions en créations visuelles.</p>
+          </div>
+          <div class="feature">
+            <div class="feature-icon">◈</div>
+            <h3>Espace personnel</h3>
+            <p>Retrouvez bientôt vos conversations et vos créations.</p>
+          </div>
+        </div>
+      </section>
+
+      <section id="images" class="pricing">
+        <h2>NOVA <span class="gradient">IMAGE</span></h2>
+        <p class="pricing-intro">Donnez vie à votre imagination.</p>
+        <div class="plan">
+          <h3>Génération d'images</h3>
+          <p>Cette fonctionnalité sera connectée à un véritable service de génération d'images lors d'une prochaine étape.</p>
+        </div>
+      </section>
+
+      <section id="history" class="pricing">
+        <h2>Votre <span class="gradient">historique</span></h2>
+        <p class="pricing-intro">Vos conversations sauvegardées apparaîtront ici après la mise en place des comptes.</p>
+      </section>
+
+      <section id="pricing" class="pricing">
+        <h2>Choisissez votre <span class="gradient">NOVA</span></h2>
+        <p class="pricing-intro">Des offres pensées pour chaque niveau d'utilisation.</p>
+
+        <div class="plans">
+          <div class="plan">
+            <h3>START</h3>
+            <div class="price">0 € <small>/ mois</small></div>
+            <p>✓ Accès essentiel<br>✓ Chat avec limites<br>✓ Découverte de NOVA</p>
+            <button class="account">Offre gratuite</button>
+          </div>
+
+          <div class="plan">
+            <h3>PLUS</h3>
+            <div class="price">14,99 € <small>/ mois</small></div>
+            <p>✓ Plus de messages<br>✓ Historique<br>✓ Fonctions supplémentaires</p>
+            <button class="primary" onclick="alert('Les abonnements seront activés après la mise en place des paiements.')">Choisir PLUS</button>
+          </div>
+
+          <div class="plan highlight">
+            <h3>PREMIUM</h3>
+            <div class="price">25,99 € <small>/ mois</small></div>
+            <p>✓ Outils avancés<br>✓ Génération d'images selon limites<br>✓ Capacités supérieures</p>
+            <button class="primary" onclick="alert('Les abonnements seront activés après la mise en place des paiements.')">Choisir PREMIUM</button>
+          </div>
+
+          <div class="plan">
+            <h3>ULTRA</h3>
+            <div class="price">40,99 € <small>/ mois</small></div>
+            <p>✓ Fonctionnalités avancées<br>✓ Limites supérieures<br>✓ Priorité si disponible</p>
+            <button class="primary" onclick="alert('Les abonnements seront activés après la mise en place des paiements.')">Choisir ULTRA</button>
+          </div>
+        </div>
+      </section>
+
+    </div>
+
+    <footer>© 2026 NOVA AI — Tous droits réservés. Version de démonstration.</footer>
+  </main>
+</div>
+
+<script>
+  function showPage(page, button) {
+    document.querySelectorAll('#home, #images, #history, #pricing')
+      .forEach(section => section.style.display = 'none');
+
+    document.getElementById(page).style.display = 'block';
+
+    document.querySelectorAll('.nav button')
+      .forEach(item => item.classList.remove('active'));
+
+    if (button) button.classList.add('active');
+  }
+
+  document.getElementById('chatForm').addEventListener('submit', function(event) {
+    event.preventDefault();
+
+    const input = document.getElementById('userInput');
+    const messages = document.getElementById('messages');
+    const value = input.value.trim();
+
+    if (!value) return;
+
+    const userMessage = document.createElement('div');
+    userMessage.className = 'message user';
+    userMessage.textContent = value;
+    messages.appendChild(userMessage);
+
+    const reply = document.createElement('div');
+    reply.className = 'message ai';
+    reply.textContent = '✦ Merci pour votre message ! Le moteur IA de NOVA sera connecté dans la prochaine étape.';
+    messages.appendChild(reply);
+
+    input.value = '';
+    messages.scrollTop = messages.scrollHeight;
+  });
+</script>
+</body>
+</html>
